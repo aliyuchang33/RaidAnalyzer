@@ -1,0 +1,7 @@
+{
+  "event.raidanalyzer.raid_spawn": "A raid spawned at %s with id %d.",
+  "event.raidanalyzer.raiders_spawn": "Wave %d raiders of raid id %d spawned at %s.",
+  "event.raidanalyzer.raid_move_center": "Raid of id %d moved from %s to %s.",
+  "event.raidanalyzer.add_poi": "A POI is added at %s.",
+  "event.raidanalyzer.raider_spawn_failed": "Wave %d of raid id %d failed to spawn. Please make sure the highest blocks from %d, %d to %d, %d contain solid block."
+}

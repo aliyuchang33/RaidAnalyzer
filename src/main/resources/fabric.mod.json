@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "raidanalyzer",
+  "version": "${version}",
+
+  "name": "Raid Analyzer",
+  "description": "An analyzer of raids",
+  "authors": [
+    "Hork"
+  ],
+  "contact": {
+    "homepage": "https://himeki.net/",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/raidanalyzer/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.himeki.raidanalyzer.RaidAnalyzer"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.2",
+    "fabric": "*",
+    "minecraft": "1.15.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

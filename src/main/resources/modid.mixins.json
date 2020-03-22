@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.himeki.raidanalyzer.mixin",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "RaidManagerMixin",
+    "RaidMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
