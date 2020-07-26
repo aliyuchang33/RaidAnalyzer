@@ -21,6 +21,5 @@ public class RecordSession {
 
     public void addRecord(RaidRecord record) {
         recordsList.add(record);
-
     }
 }
