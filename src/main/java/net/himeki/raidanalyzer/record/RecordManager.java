@@ -1,5 +1,7 @@
 package net.himeki.raidanalyzer.record;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.server.ServerStartCallback;
 import net.fabricmc.fabric.api.event.server.ServerStopCallback;
 import net.himeki.raidanalyzer.RaidAnalyzer;
@@ -33,6 +35,7 @@ public class RecordManager {
         }));
     }
 
+    @Environment(EnvType.CLIENT)
     public void addRecord(RaidRecord record) {
         record.setTick(currentServer.getTicks());
         if (record instanceof RaidSpawnRecord)
@@ -41,10 +44,6 @@ public class RecordManager {
             raiderEntitiesSpawnAction((RaiderEntitiesSpawnRecord) record);
         else if (record instanceof RaidMoveCenterRecord)
             raidMoveCenterAction((RaidMoveCenterRecord) record);
-        else if (record instanceof POIAddRecord)
-            poiAddAction((POIAddRecord) record);
-        else if (record instanceof POIRemoveRecord)
-            poiRemoveAction((POIRemoveRecord) record);
         else if (record instanceof RaiderSpawnFailRecord)
             raiderSpawnFailedAction((RaiderSpawnFailRecord) record);
         if (currentSession != null) {
@@ -77,47 +76,37 @@ public class RecordManager {
 
     }
 
+    @Environment(EnvType.CLIENT)
     private void raidSpawnAction(RaidSpawnRecord record) {
         if (configHolder.printRaidSpawn)
             for (ServerPlayerEntity player : currentServer.getPlayerManager().getPlayerList()) {
-                player.sendChatMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raid_spawn", record.getCenter().toShortString(), record.getRaidId())).formatted(Formatting.GREEN), MessageType.CHAT);
+                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raid_spawn", record.getCenter().toShortString(), record.getRaidId())).formatted(Formatting.GREEN), false);
             }
 
 
     }
 
+    @Environment(EnvType.CLIENT)
     private void raiderEntitiesSpawnAction(RaiderEntitiesSpawnRecord record) {
         if (configHolder.printRaidersEntitiesSpawn)
             for (ServerPlayerEntity player : currentServer.getPlayerManager().getPlayerList()) {
-                player.sendChatMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raiders_spawn", record.getWave(), record.getRaidId(), record.getSpawnPoint().toShortString())).formatted(Formatting.GREEN), MessageType.CHAT);
+                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raiders_spawn", record.getWave(), record.getRaidId(), record.getSpawnPoint().toShortString())).formatted(Formatting.GREEN), false);
             }
 
     }
 
+    @Environment(EnvType.CLIENT)
     private void raidMoveCenterAction(RaidMoveCenterRecord record) {
         if (configHolder.printRaidMoveCenter)
             for (ServerPlayerEntity player : currentServer.getPlayerManager().getPlayerList()) {
-                player.sendChatMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raid_move_center", record.getRaidId(), record.getFromPos().toShortString(), record.getToPos().toShortString())).formatted(Formatting.GREEN), MessageType.CHAT);
+                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raid_move_center", record.getRaidId(), record.getFromPos().toShortString(), record.getToPos().toShortString())).formatted(Formatting.GREEN), false);
             }
-    }
-
-    private void poiAddAction(POIAddRecord record) {
-        if (configHolder.printPoiAdd)
-            for (ServerPlayerEntity player : currentServer.getPlayerManager().getPlayerList()) {
-                if (record.getPos().isWithinDistance(player.getPos(), 256.00))
-                    player.sendChatMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.add_poi", record.getPos().toShortString())).formatted(Formatting.GREEN), MessageType.CHAT);
-            }
-
-    }
-
-    private void poiRemoveAction(POIRemoveRecord record) {
-
     }
 
     private void raiderSpawnFailedAction(RaiderSpawnFailRecord record) {
         if (configHolder.printRaiderSpawnFailed)
             for (ServerPlayerEntity player : currentServer.getPlayerManager().getPlayerList()) {
-                player.sendChatMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raider_spawn_failed", record.getWave(), record.getRaidId(), record.getCenter().getX(), record.getCenter().getZ(), record.getCenter().getX() + 4, record.getCenter().getZ() + 4)).formatted(Formatting.RED), MessageType.CHAT);
+                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raider_spawn_failed", record.getWave(), record.getRaidId(), record.getCenter().getX(), record.getCenter().getZ(), record.getCenter().getX() + 4, record.getCenter().getZ() + 4)).formatted(Formatting.RED), false);
             }
     }
 }

@@ -1,6 +1,5 @@
 package net.himeki.raidanalyzer.record;
 
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
 public class RaiderEntitiesSpawnRecord implements RaidRecord {
