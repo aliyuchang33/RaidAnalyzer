@@ -53,7 +53,7 @@ public abstract class RaidMixin {
         RaidAnalyzer.INSTANCE.getRecordManager().addRecord(new RaiderEntitiesSpawnRecord(getRaidId(), pos, wavesSpawned));
     }
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/raid/Raid;invalidate()V",ordinal = 3))
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/village/raid/Raid;invalidate()V",ordinal = 3))
     private void onRaiderSpawnFailed(CallbackInfo ci) {
         RaidAnalyzer.INSTANCE.getRecordManager().addRecord(new RaiderSpawnFailRecord(getRaidId(), center, wavesSpawned + 1));
     }

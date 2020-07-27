@@ -21,7 +21,8 @@ public abstract class RaidManagerMixin extends PersistentState {
         super(key);
     }
 
-    @Inject(method = "startRaid", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/village/raid/RaidManager;getOrCreateRaid(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/village/raid/Raid;;"), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "startRaid", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/village/raid/RaidManager;getOrCreateRaid(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/village/raid/Raid;"), locals = LocalCapture.CAPTURE_FAILHARD)
+
     private void onRaidCreated(ServerPlayerEntity player, CallbackInfoReturnable<Raid> cir, BlockPos blockPos, BlockPos blockPos4, Raid raid) {
         RaidAnalyzer.INSTANCE.getRecordManager().addRecord(new RaidSpawnRecord(raid.getRaidId(), raid.getCenter()));
     }
