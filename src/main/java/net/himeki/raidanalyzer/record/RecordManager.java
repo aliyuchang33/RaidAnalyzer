@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.event.server.ServerStopCallback;
 import net.himeki.raidanalyzer.RaidAnalyzer;
 import net.himeki.raidanalyzer.config.ConfigHolder;
 import net.himeki.raidanalyzer.session.RecordSession;
-import net.minecraft.network.MessageType;
+import net.himeki.raidanalyzer.utils.PrintUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
@@ -35,7 +35,6 @@ public class RecordManager {
         }));
     }
 
-    @Environment(EnvType.CLIENT)
     public void addRecord(RaidRecord record) {
         record.setTick(currentServer.getTicks());
         if (record instanceof RaidSpawnRecord)
@@ -76,30 +75,27 @@ public class RecordManager {
 
     }
 
-    @Environment(EnvType.CLIENT)
     private void raidSpawnAction(RaidSpawnRecord record) {
         if (configHolder.printRaidSpawn)
             for (ServerPlayerEntity player : currentServer.getPlayerManager().getPlayerList()) {
-                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raid_spawn", record.getCenter().toShortString(), record.getRaidId())).formatted(Formatting.GREEN), false);
+                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raid_spawn", PrintUtil.pos2ShortString(record.getCenter()), record.getRaidId())).formatted(Formatting.GREEN), false);
             }
 
 
     }
 
-    @Environment(EnvType.CLIENT)
     private void raiderEntitiesSpawnAction(RaiderEntitiesSpawnRecord record) {
         if (configHolder.printRaidersEntitiesSpawn)
             for (ServerPlayerEntity player : currentServer.getPlayerManager().getPlayerList()) {
-                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raiders_spawn", record.getWave(), record.getRaidId(), record.getSpawnPoint().toShortString())).formatted(Formatting.GREEN), false);
+                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raiders_spawn", record.getWave(), record.getRaidId(), PrintUtil.pos2ShortString(record.getSpawnPoint()))).formatted(Formatting.GREEN), false);
             }
 
     }
 
-    @Environment(EnvType.CLIENT)
     private void raidMoveCenterAction(RaidMoveCenterRecord record) {
         if (configHolder.printRaidMoveCenter)
             for (ServerPlayerEntity player : currentServer.getPlayerManager().getPlayerList()) {
-                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raid_move_center", record.getRaidId(), record.getFromPos().toShortString(), record.getToPos().toShortString())).formatted(Formatting.GREEN), false);
+                player.sendMessage(new LiteralText(record.printTime()).append(new TranslatableText("event.raidanalyzer.raid_move_center", record.getRaidId(), PrintUtil.pos2ShortString(record.getFromPos()), PrintUtil.pos2ShortString(record.getToPos()))).formatted(Formatting.GREEN), false);
             }
     }
 
